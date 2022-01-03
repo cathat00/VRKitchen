@@ -1,4 +1,6 @@
-﻿public interface IDial
+﻿using UnityEngine.XR.Interaction.Toolkit;
+
+public interface IDial
 {
-    void DialChanged(float dialvalue);
+    void DialChanged(float analogDialValue, float snapRotationAmount);
 }

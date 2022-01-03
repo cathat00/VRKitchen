@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 8858994601716573879}
   - component: {fileID: 4748488796948396419}
   - component: {fileID: 6277510040237486026}
+  - component: {fileID: -4644995316236903561}
   m_Layer: 0
   m_Name: Switch_Dial
   m_TagString: Untagged
@@ -265,8 +266,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedDial: {fileID: 36829913844063842}
-  snapRotationAmount: 20
-  angleTolerance: 25
+  snapRotationAmount: 45
+  angleTolerance: 40
   RighthandModel: {fileID: 0}
   LefthandModel: {fileID: 0}
   shouldUseDummyHands: 0
+  hapticsEnabled: 0
+  hapticDuration: 0
+  hapticAmplitude: 0
+--- !u!114 &-4644995316236903561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7943225168761081061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3ca40caa4caf6b42beb4cac8cf4eca4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentDialValue: 0

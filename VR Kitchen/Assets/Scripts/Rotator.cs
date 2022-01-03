@@ -8,11 +8,16 @@ namespace LevelUP.Dial
         [SerializeField] Transform linkedDial;
         [SerializeField] private int snapRotationAmount = 25;
         [SerializeField] private float angleTolerance;
-        [SerializeField] private GameObject RighthandModel;
-        [SerializeField] private GameObject LefthandModel;
-        [SerializeField] bool shouldUseDummyHands;
+
+        [SerializeField] private bool rotationConstraints = false;
+        [SerializeField] private float maxRotations = 0;
+
+        [SerializeField] private bool hapticsEnabled = false;
+        [SerializeField] private float hapticDuration = 0.0f;
+        [SerializeField] private float hapticAmplitude = 0.0f;
 
         private XRBaseInteractor interactor;
+
         private float startAngle;
         private bool requiresStartAngle = true;
         private bool shouldGetHandRotation = false;
@@ -33,7 +38,6 @@ namespace LevelUP.Dial
         {
             shouldGetHandRotation = false;
             requiresStartAngle = true;
-            HandModelVisibility(false);
         }
 
         private void GrabbedBy(SelectEnterEventArgs arg0)
@@ -43,19 +47,6 @@ namespace LevelUP.Dial
 
             shouldGetHandRotation = true;
             startAngle = 0f;
-
-            HandModelVisibility(true);
-        }
-
-        private void HandModelVisibility(bool visibilityState)
-        {
-            if (!shouldUseDummyHands)
-                return;
-
-            if (interactor.CompareTag("RightHand"))
-                RighthandModel.SetActive(visibilityState);
-            else
-                LefthandModel.SetActive(visibilityState);
         }
 
         void Update()
@@ -90,8 +81,11 @@ namespace LevelUP.Dial
                                 return;
                             else
                             {
-                                RotateDialClockwise();
-                                startAngle = currentAngle;
+                                if (isValidClockWiseRotation())
+                                {
+                                    RotateDialClockwise();
+                                    startAngle = currentAngle;
+                                }
                             }
                         }
                         else if (startAngle > currentAngle) 
@@ -102,8 +96,11 @@ namespace LevelUP.Dial
                                 return;
                             else
                             {
-                                RotateDialAntiClockwise();
-                                startAngle = currentAngle;
+                                if (isValidAntiClockWiseRotation())
+                                {
+                                    RotateDialAntiClockwise();
+                                    startAngle = currentAngle;
+                                }
                             }
                         }
                     }
@@ -111,13 +108,19 @@ namespace LevelUP.Dial
                     {
                         if (startAngle < currentAngle)
                         {
-                            RotateDialAntiClockwise();
-                            startAngle = currentAngle;
+                            if (isValidAntiClockWiseRotation())
+                            {
+                                RotateDialAntiClockwise();
+                                startAngle = currentAngle;
+                            }
                         }
                         else if (startAngle > currentAngle)
                         {
-                            RotateDialClockwise();
-                            startAngle = currentAngle;
+                            if (isValidClockWiseRotation())
+                            {
+                                RotateDialClockwise();
+                                startAngle = currentAngle;
+                            }
                         }
                     }
                 }
@@ -139,7 +142,15 @@ namespace LevelUP.Dial
                                                       linkedDial.localEulerAngles.z + snapRotationAmount);
 
             if (TryGetComponent<IDial>(out IDial dial))
-                dial.DialChanged(linkedDial.localEulerAngles.z);
+                dial.DialChanged(linkedDial.localEulerAngles.z, snapRotationAmount); // The different dial positions: 0 -> 0, 25 -> 1, 50 -> 2, etc.
+        }
+
+        private bool isValidClockWiseRotation()
+        {
+            if (rotationConstraints)
+                return (linkedDial.localEulerAngles.z + snapRotationAmount) <= (maxRotations * snapRotationAmount);
+            else
+                return true;
         }
 
         private void RotateDialAntiClockwise()
@@ -149,7 +160,16 @@ namespace LevelUP.Dial
                                                       linkedDial.localEulerAngles.z - snapRotationAmount);
 
             if(TryGetComponent<IDial>(out IDial dial))
-                dial.DialChanged(linkedDial.localEulerAngles.z);
+                dial.DialChanged(linkedDial.localEulerAngles.z, snapRotationAmount); // The different dial positions: 0 -> 0, 25 -> 1, 50 -> 2, etc.
         }
+
+        private bool isValidAntiClockWiseRotation()
+        {
+            if (rotationConstraints)
+                return (linkedDial.localEulerAngles.z - snapRotationAmount) >= 0;
+            else
+                return true;
+        }
+
     }
 }
