@@ -12,10 +12,6 @@ namespace LevelUP.Dial
         [SerializeField] private bool rotationConstraints = false;
         [SerializeField] private float maxRotations = 0;
 
-        [SerializeField] private bool hapticsEnabled = false;
-        [SerializeField] private float hapticDuration = 0.0f;
-        [SerializeField] private float hapticAmplitude = 0.0f;
-
         private XRBaseInteractor interactor;
 
         private float startAngle;
