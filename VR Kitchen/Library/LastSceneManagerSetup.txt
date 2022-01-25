@@ -1,5 +1,5 @@
 sceneSetups:
-- path: C:/Users/caleb/OneDrive/Desktop/PourEffect-master/PourEffect-master/Assets/Main.unity
+- path: Assets/Scenes/gameScene_handsSetup.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

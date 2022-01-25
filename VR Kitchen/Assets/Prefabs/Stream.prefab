@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -5848549998344921589}
   m_Layer: 0
   m_Name: Stream
-  m_TagString: Untagged
+  m_TagString: FlowingLiquid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47982e056c0c7cd4a894234ca49986a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  litersPerSecond: 0.138
 --- !u!1001 &2957298985372585377
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -162,6 +163,10 @@ PrefabInstance:
     - target: {fileID: 2786267434752601126, guid: b4e7c3922857a9840ba3a8a1887db23d, type: 3}
       propertyPath: m_Name
       value: WaterSplash
+      objectReference: {fileID: 0}
+    - target: {fileID: 2786267434752601126, guid: b4e7c3922857a9840ba3a8a1887db23d, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7896271959862341933, guid: b4e7c3922857a9840ba3a8a1887db23d, type: 3}
       propertyPath: m_RootOrder
