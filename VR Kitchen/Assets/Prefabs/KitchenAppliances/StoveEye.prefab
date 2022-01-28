@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2512192663542825947}
   - component: {fileID: 6843788297239472086}
   - component: {fileID: 2557705895686165256}
-  - component: {fileID: 6475954145237889299}
+  - component: {fileID: 2275433443407826987}
   m_Layer: 0
   m_Name: StoveEye
   m_TagString: Untagged
@@ -82,7 +82,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6475954145237889299
+--- !u!114 &2275433443407826987
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,15 +91,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2441149917687721380}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62618b6fb4373684abb4657825dd593f, type: 3}
+  m_Script: {fileID: 11500000, guid: 2874e11f652640c48a2083cd8c8564cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heatShades:
-  - {r: 0.13333334, g: 0.15294118, b: 0.19215688, a: 1}
-  - {r: 0.5754717, g: 0.14725305, b: 0.14386792, a: 1}
-  - {r: 1, g: 0.008803852, b: 0, a: 1}
-  offShade: {r: 0.13333334, g: 0.15294118, b: 0.19215688, a: 0}
-  maxShade: {r: 1, g: 0.007843138, b: 0, a: 0}
+  offShade: {r: 1, g: 0, b: 0, a: 0}
+  maxShade: {r: 0, g: 0, b: 0, a: 0}
   maxTemp: 300
   tempChangeSpeed: 10
   linkedDial: {fileID: 0}

@@ -5,33 +5,61 @@ using UnityEngine;
 public abstract class Heatable : MonoBehaviour
 {
     public float maxTemp;
-    protected float tempIncrement = 100;
-    protected float currentTemp = 0.0f;
+    public float currentTemp = 0.0f;
+    [SerializeField] private float targetTemp = 0f;
 
-    public float tempChangeSpeed; // Speed at which the eye changes from one heat setting to the next
+    [SerializeField] private float degsPerSec; // Speed at which the eye changes from one heat setting to the next in degrees per second
 
-    public virtual void ChangeTemp(float targetTemp)
+    private bool beingHeated = false;
+    [SerializeField] protected bool canCool = true;
+
+    private IEnumerator controlTemp = null;
+
+    protected virtual void OnEnable()
     {
-        StopAllCoroutines();
-        StartCoroutine(AdjustTempOverTime(targetTemp));
+        controlTemp = ControlTemp();
+        StartCoroutine(controlTemp);
     }
 
-    protected virtual IEnumerator AdjustTempOverTime(float targetTemp) // Lerp between specified temperatures, updating the obj accordingly
-    {
-        float startingTemp = currentTemp;
-        if (targetTemp > maxTemp)
-        {
-            targetTemp = maxTemp;
-        }
+    public void Heat(float temp) => targetTemp = temp;
 
-        float totalTime = Mathf.Abs(targetTemp - startingTemp) / tempChangeSpeed; // I.e. it takes twice as long to heat from 100 -> 300 as from 100 -> 200
+    public void RemoveFromHeat() => targetTemp = 0f;
+
+    private IEnumerator ControlTemp()
+    {
+
+        float totalTime;
+
+        float startingTemp = 0.0f;
+        bool cooling = false;
+
         float timeElapsed = 0.0f;
 
-        while (timeElapsed < totalTime)
+        while (this.gameObject.activeInHierarchy)
         {
-            timeElapsed += Time.deltaTime;
-            currentTemp = Mathf.Lerp(startingTemp, targetTemp, timeElapsed / totalTime);
+            if (targetTemp < currentTemp && !cooling && canCool)
+            {
+                startingTemp = currentTemp;
+                cooling = true;
+                timeElapsed = 0.0f;
+            }
+            else if (targetTemp > currentTemp && cooling)
+            {
+                startingTemp = 0.0f;
+                cooling = false;
+                timeElapsed = 0.0f;
+            }
+
+            totalTime = Mathf.Abs(startingTemp - targetTemp) / degsPerSec; // Recalculate the total time on each loop -- it is liable to change as the heater's temp changes
+
+            if (totalTime > timeElapsed)
+            {
+                timeElapsed += Time.deltaTime;
+                currentTemp = Mathf.Lerp(startingTemp, targetTemp, timeElapsed / totalTime);
+            }
+
             yield return null;
         }
-    }
+    } // End of control temp
+
 }
