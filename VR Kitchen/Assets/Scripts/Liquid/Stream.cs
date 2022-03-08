@@ -66,11 +66,12 @@ public class Stream : MonoBehaviour
     private void TryToFill(GameObject obj)
     {
         GameObject container = null;
+        LiquidContainer statLiq;
 
         if (obj.tag == "StaticLiquid") container = obj.transform.parent.gameObject; // A liquid's parent should be its container
 
-        if (container != null && container.GetComponent<LiquidContainer>() != null)
-            container.GetComponent<LiquidContainer>().AddToVolume(litersPerSecond * Time.deltaTime);
+        if (container != null && container.TryGetComponent<LiquidContainer>(out statLiq))
+            statLiq.GetComponent<LiquidContainer>().AddToVolume(litersPerSecond * Time.deltaTime);
     }
 
     private Vector3 FindEndPoint()

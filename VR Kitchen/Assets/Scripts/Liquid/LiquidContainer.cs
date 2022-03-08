@@ -56,7 +56,6 @@ public class LiquidContainer : MonoBehaviour
         // The liquid should have the highest rotation difference in the middle of the container
         float pingPong = Mathf.PingPong(currentVolume / (maxVolume / 2), 1);
         curRotationDiff = Mathf.Lerp(minRotationDiff, maxRotationDiff, pingPong);
-
     }
 
     public void AddToVolume(float amt)

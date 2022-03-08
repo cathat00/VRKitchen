@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Heater : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     private List<GameObject> objsHeating = new List<GameObject>();
     public float currentTemp;
 

@@ -5,18 +5,20 @@ using UnityEngine;
 public class HeatableContainer : Heatable
 {
 
-    [SerializeField] private float boilingTemp;
+    [SerializeField] private float particleTemp; // Temperature at which the container begins emitting particles
+    [SerializeField] private Heater heater;
 
-    private ParticleSystem smokeParticles;
+    private ParticleSystem particles;
 
     private void Start()
     { 
-        smokeParticles = GetComponentInChildren<ParticleSystem>();
+        particles = GetComponentInChildren<ParticleSystem>();
     }
 
     private void Update()
     {
-        smokeParticles.gameObject.SetActive(currentTemp >= boilingTemp);
+        particles.gameObject.SetActive(currentTemp >= particleTemp);
+        heater.currentTemp = currentTemp; // Heatable containers heat the objects they contain
     }
 
 }
