@@ -11,7 +11,7 @@ public class Recipe
     [HideInInspector] public bool isStarted = false;
     private bool isComplete = false;
 
-    [HideInInspector] public RecipeTask currentTask;
+    public RecipeTask currentTask;
     private int taskIdx = 0;
 
     public void nextTask()

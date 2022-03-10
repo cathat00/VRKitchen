@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LiquidContainer : MonoBehaviour
+public class LiquidContainer : RecipeBroadcaster
 {
     public GameObject liquid;
     public GameObject liquidMesh;
@@ -15,7 +15,7 @@ public class LiquidContainer : MonoBehaviour
     [SerializeField] private float minRotationDiff;
 
     [SerializeField] private float maxVolume = 0f; // In liters
-    private float currentVolume = 0f; // In liters
+    [SerializeField] private float currentVolume = 0f; // In liters
 
     [SerializeField] private Transform fillPoint;
     private Vector3 startingHeight;
@@ -61,6 +61,10 @@ public class LiquidContainer : MonoBehaviour
     public void AddToVolume(float amt)
     {
         currentVolume = Mathf.Clamp(currentVolume + amt, 0, maxVolume);
+
+        Ingredient liquidIng = liquid.GetComponent<Ingredient>();
+        //Debug.Log("type: " + liquidIng.type + " volume: " + currentVolume);
+        BroadcastAdd(liquidIng.type, currentVolume);
     }
 
     public float ClampRotationValue(float value, float difference)

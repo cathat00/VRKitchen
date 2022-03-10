@@ -123,6 +123,259 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &183264760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 183264768}
+  - component: {fileID: 183264767}
+  - component: {fileID: 183264766}
+  - component: {fileID: 183264765}
+  - component: {fileID: 183264764}
+  - component: {fileID: 183264763}
+  - component: {fileID: 183264762}
+  - component: {fileID: 183264761}
+  m_Layer: 6
+  m_Name: Tofu (1)
+  m_TagString: Heatable
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!54 &183264761
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183264760}
+  serializedVersion: 2
+  m_Mass: 0.001
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &183264762
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183264760}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &183264763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183264760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82359e5b08f17c54097d70c6b20eac09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxTemp: 300
+  currentTemp: 0
+  degsPerSec: 10
+  canCool: 0
+  rawColor: {r: 1, g: 1, b: 1, a: 1}
+  cookedColor: {r: 0.6037736, g: 0.2814857, b: 0.08259169, a: 0}
+--- !u!114 &183264764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183264760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45c664480d52df6428fcb2ba82bcd8ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: Tofu
+  amount: 1
+--- !u!114 &183264765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183264760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad34abafad169848a38072baa96cdb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractionManager: {fileID: 273752136}
+  m_Colliders: []
+  m_InteractionLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  m_CustomReticle: {fileID: 0}
+  m_FirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Activated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Deactivated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnFirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnLastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectCanceled:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnActivate:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+  m_AttachTransform: {fileID: 0}
+  m_AttachEaseInTime: 0.15
+  m_MovementType: 0
+  m_VelocityDamping: 1
+  m_VelocityScale: 1
+  m_AngularVelocityDamping: 1
+  m_AngularVelocityScale: 1
+  m_TrackPosition: 1
+  m_SmoothPosition: 0
+  m_SmoothPositionAmount: 5
+  m_TightenPosition: 0.5
+  m_TrackRotation: 1
+  m_SmoothRotation: 0
+  m_SmoothRotationAmount: 5
+  m_TightenRotation: 0.5
+  m_ThrowOnDetach: 1
+  m_ThrowSmoothingDuration: 0.25
+  m_ThrowSmoothingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_ThrowVelocityScale: 1.5
+  m_ThrowAngularVelocityScale: 1
+  m_ForceGravityOnDetach: 0
+  m_RetainTransformParent: 1
+  m_AttachPointCompatibilityMode: 0
+--- !u!23 &183264766
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183264760}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &183264767
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183264760}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &183264768
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183264760}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.21, y: 1.617, z: 0.736}
+  m_LocalScale: {x: 0.074064806, y: 0.074064806, z: 0.074064806}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &215222136 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8057147769990859783, guid: b2f048b4ae287a0468d1ee4e93c858f9, type: 3}
@@ -1893,11 +2146,6 @@ MonoBehaviour:
     title: Chicken Noodle Soup
     tasks:
     - type: 0
-      reqIngredient: Tofu
-      requiredAmt: 3
-      currentAmt: 0
-      isComplete: 0
-    - type: 0
       reqIngredient: Water
       requiredAmt: 10
       currentAmt: 0
@@ -2309,7 +2557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c664480d52df6428fcb2ba82bcd8ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: Apple
+  type: Tofu
   amount: 1
 --- !u!114 &1960546753
 MonoBehaviour:
@@ -3388,9 +3636,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 594358076, guid: e5c7c78372fe78343b1ba8266c668eb4, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 1419460947, guid: e5c7c78372fe78343b1ba8266c668eb4, type: 3}
       propertyPath: m_Name
       value: IngredientCollector
+      objectReference: {fileID: 0}
+    - target: {fileID: 1419460947, guid: e5c7c78372fe78343b1ba8266c668eb4, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1419460952, guid: e5c7c78372fe78343b1ba8266c668eb4, type: 3}
+      propertyPath: broadcasting
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1419460952, guid: e5c7c78372fe78343b1ba8266c668eb4, type: 3}
       propertyPath: recipeManager
@@ -3398,8 +3658,12 @@ PrefabInstance:
       objectReference: {fileID: 1881862044}
     - target: {fileID: 34502211518955208, guid: e5c7c78372fe78343b1ba8266c668eb4, type: 3}
       propertyPath: m_UseGravity
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 34502211518955210, guid: e5c7c78372fe78343b1ba8266c668eb4, type: 3}
+      propertyPath: recipeManager
+      value: 
+      objectReference: {fileID: 1881862044}
     - target: {fileID: 34502211518955211, guid: e5c7c78372fe78343b1ba8266c668eb4, type: 3}
       propertyPath: m_InteractionManager
       value: 
@@ -3410,15 +3674,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 572004334441558822, guid: e5c7c78372fe78343b1ba8266c668eb4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.173
+      value: -4.406
       objectReference: {fileID: 0}
     - target: {fileID: 572004334441558822, guid: e5c7c78372fe78343b1ba8266c668eb4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.235
+      value: 0.95
       objectReference: {fileID: 0}
     - target: {fileID: 572004334441558822, guid: e5c7c78372fe78343b1ba8266c668eb4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.035
+      value: -1.086
       objectReference: {fileID: 0}
     - target: {fileID: 572004334441558822, guid: e5c7c78372fe78343b1ba8266c668eb4, type: 3}
       propertyPath: m_LocalRotation.w

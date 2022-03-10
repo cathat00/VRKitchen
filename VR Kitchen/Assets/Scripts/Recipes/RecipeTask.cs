@@ -18,6 +18,7 @@ public class RecipeTask
     public void addIngredient(string ingType, float amt)
     {
         if (ingType == reqIngredient) currentAmt += amt;
+        Debug.Log(ingType + " " + amt);
         isComplete = checkIfComplete();
     }
 

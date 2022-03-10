@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Stream : MonoBehaviour
 {
+    [SerializeField] LayerMask ignoreMask;
+
     public float litersPerSecond = .138f; // Liter output per second
 
     private LineRenderer lineRenderer = null;
@@ -79,7 +81,7 @@ public class Stream : MonoBehaviour
         RaycastHit hit;
         Ray ray = new Ray(transform.position, Vector3.down);
 
-        Physics.Raycast(ray, out hit, 2.0f);
+        Physics.Raycast(ray, out hit, 2.0f, ~ignoreMask);
         Vector3 endPoint = hit.collider ? hit.point : ray.GetPoint(2.0f);
 
         GameObject obj = hit.collider.gameObject;
