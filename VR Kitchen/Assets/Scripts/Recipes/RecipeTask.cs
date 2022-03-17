@@ -15,16 +15,20 @@ public class RecipeTask
 
     private bool checkIfComplete() => (requiredAmt == currentAmt);
 
-    public void addIngredient(string ingType, float amt)
+    public void addAmt(string ingType, float amt)
     {
         if (ingType == reqIngredient) currentAmt += amt;
-        Debug.Log(ingType + " " + amt);
         isComplete = checkIfComplete();
     }
 
-    public void removeIngredient(string ingType, float amt)
+    public void removeAmt(string ingType, float amt)
     {
         if (ingType == reqIngredient) currentAmt -= amt;
+        isComplete = checkIfComplete();
+    }
+
+    public void setAmt(string ingType, float amt) {
+        if (ingType == reqIngredient) currentAmt = amt;
         isComplete = checkIfComplete();
     }
 }

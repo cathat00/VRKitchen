@@ -9,7 +9,7 @@ public class Recipe
     public RecipeTask[] tasks;
 
     [HideInInspector] public bool isStarted = false;
-    private bool isComplete = false;
+    [HideInInspector] public bool isComplete = false;
 
     public RecipeTask currentTask;
     private int taskIdx = 0;

@@ -6,6 +6,7 @@ public class LiquidContainer : RecipeBroadcaster
 {
     public GameObject liquid;
     public GameObject liquidMesh;
+    private MeshRenderer liquidRender;
 
     [SerializeField] private int sloshSpeed;
     [SerializeField] private int rotateSpeed;
@@ -23,13 +24,15 @@ public class LiquidContainer : RecipeBroadcaster
     private void Awake()
     {
         startingHeight = liquid.transform.localPosition;
+        liquidRender = liquidMesh.GetComponent<MeshRenderer>();
+
+        if (currentVolume <= 0f) liquidRender.enabled = false; // Only show liquid in the container if there is a nonzero volume of said liquid
     }
 
     // Update is called once per frame
     void Update()
     {
         Slosh();
-        Fill();
         
         liquidMesh.transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime, Space.Self); // Spin
     }
@@ -45,13 +48,10 @@ public class LiquidContainer : RecipeBroadcaster
         liquid.transform.localEulerAngles = finalRot;
     }
 
-    void Fill()
+    void AdjustLiquidHeight()
     {
         Vector3 heightByVolume = Vector3.Lerp(startingHeight, fillPoint.localPosition, currentVolume / maxVolume);
-        if (liquid.transform.localPosition != heightByVolume)
-        {
-            liquid.transform.localPosition = heightByVolume;
-        }
+        liquid.transform.localPosition = heightByVolume;
 
         // The liquid should have the highest rotation difference in the middle of the container
         float pingPong = Mathf.PingPong(currentVolume / (maxVolume / 2), 1);
@@ -62,9 +62,12 @@ public class LiquidContainer : RecipeBroadcaster
     {
         currentVolume = Mathf.Clamp(currentVolume + amt, 0, maxVolume);
 
+        if (liquidRender.enabled == false) liquidRender.enabled = true;
+
+        AdjustLiquidHeight();
+
         Ingredient liquidIng = liquid.GetComponent<Ingredient>();
-        //Debug.Log("type: " + liquidIng.type + " volume: " + currentVolume);
-        BroadcastAdd(liquidIng.type, currentVolume);
+        BroadcastSet(liquidIng.type, currentVolume);
     }
 
     public float ClampRotationValue(float value, float difference)
