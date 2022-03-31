@@ -16,12 +16,6 @@ public class XROffsetGrabInteractable : XRGrabInteractable
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     protected override void OnSelectEntered(XRBaseInteractor interactor)
     {
         if (interactor is XRDirectInteractor)

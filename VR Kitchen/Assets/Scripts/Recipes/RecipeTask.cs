@@ -8,12 +8,16 @@ public class RecipeTask
     public TaskType type;
 
     public string reqIngredient; // Ingredient required
-    [SerializeField] private float requiredAmt;
-    [SerializeField] private float currentAmt;
+    [SerializeField] public float requiredAmt;
+    public float currentAmt;
+    public string unitOfMeas;
 
     [HideInInspector] public bool isComplete = false;
 
-    private bool checkIfComplete() => (requiredAmt == currentAmt);
+    private bool checkIfComplete()
+    {
+        return Mathf.Approximately(requiredAmt, (float)Mathf.Round(currentAmt * 100f) / 100f); // Rounded to two decimal points to account for floating point error
+    }
 
     public void addAmt(string ingType, float amt)
     {

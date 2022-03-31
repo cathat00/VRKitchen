@@ -6,7 +6,7 @@ using UnityEngine.XR;
 public class HandPresence : MonoBehaviour
 {
     // Start is called before the first frame update
-    
+
     [SerializeField] private InputDeviceCharacteristics deviceCharacteristics;
     [SerializeField] private GameObject modelPrefab;
 
