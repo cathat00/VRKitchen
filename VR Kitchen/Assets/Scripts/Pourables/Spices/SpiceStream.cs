@@ -2,12 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* 
+ * This class defines a stream of spice (salt, pepper, basil, etc.) Unlike a liquid stream, spice streams do not use a line renderer for animation. Rather, spice streams 
+ * use a particle system for animation. Animation for spice streams is handled through the basic update loop, as opposed to a coroutine (SEE LiquidStream class).
+ * 
+ * (SEE Stream class for documentation of base class functionality)
+ */
+
 public class SpiceStream : Stream
 {
-    [SerializeField] private GameObject particleObj;
+    [SerializeField] private GameObject particleObj; // Particle gameObject
     private ParticleSystem particleSys;
 
-    private bool started;
+    private bool started; // Has the stream started? 
 
     void Awake()
     {
@@ -34,11 +41,11 @@ public class SpiceStream : Stream
     protected override void TryToFill(GameObject obj)
     {
         GameObject container = null;
-        LiquidContainer statLiq;
+        LiquidContainer statLiq; // Container to be filled
 
         if (obj.tag == "StaticLiquid") container = obj.transform.parent.gameObject; // A liquid's parent should be its container
 
-        if (container != null && container.TryGetComponent<LiquidContainer>(out statLiq))
+        if (container != null && container.TryGetComponent<LiquidContainer>(out statLiq)) // If the stream hit a liquid container -> fill the container
             statLiq.GetComponent<LiquidContainer>().AddSpice(unitsPerSecond * Time.deltaTime, ingType);
     }
 

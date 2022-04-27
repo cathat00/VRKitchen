@@ -4,32 +4,35 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/*
+ * The RecipeManager loads each recipe, loads each new recipe task, and dynamically updates the recipe UI as progress is made toward recipe completion
+ */
+
 public class RecipeManager : MonoBehaviour
 {
-    public Recipe recipe;
+    public Recipe recipe; // Current recipe being completed
 
-    [SerializeField] TextMeshProUGUI uiTitle;
-    [SerializeField] TextMeshProUGUI uiTaskText;
+    [SerializeField] TextMeshProUGUI uiTitle; // UI title text
+    [SerializeField] TextMeshProUGUI uiTaskText; // UI task text
     [SerializeField] Image uiBackground;
 
-    [SerializeField] Color bgCompleteColor;
-    [SerializeField] Color textCompleteColor;
+    [SerializeField] Color bgCompleteColor; // Color background changes to when the recipe is complete
+    [SerializeField] Color textCompleteColor; // Color text changes to when the recipe is complete
 
     private void Update()
     {
-        if (!recipe.isStarted) recipe.start();
-        if (recipe.currentTask.isComplete) recipe.nextTask();
+        if (!recipe.isStarted) recipe.start(); // Start the recipe
+        if (recipe.currentTask.isComplete) recipe.nextTask(); // If the recipe's current task is finished, try to move to the next task
 
-        UpdateUI();
+        UpdateUI(); // Update the UI with each frame
     }
 
     private void UpdateUI()
-    {
-        // Check if UI already updated, to avoid having to update entire canvas each loop
-        if (uiTaskText.text != GetTaskText()) uiTaskText.text = GetTaskText();
+    { 
+        if (uiTaskText.text != GetTaskText()) uiTaskText.text = GetTaskText(); // Check if UI already updated, to avoid having to update entire canvas each loop
         if (uiTitle.text != recipe.title) uiTitle.text = recipe.title;
 
-        if (recipe.isComplete)
+        if (recipe.isComplete) // Check if recipe is completed, IF SO then update the UI accordingly
         {
             uiBackground.color = bgCompleteColor;
         }

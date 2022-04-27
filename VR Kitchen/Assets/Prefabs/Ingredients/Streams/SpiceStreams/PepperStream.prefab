@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c664480d52df6428fcb2ba82bcd8ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: Basil
+  type: Pepper
   amount: 0
 --- !u!1001 &6654222988378448404
 PrefabInstance:

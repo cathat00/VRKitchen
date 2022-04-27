@@ -19,11 +19,22 @@ public class Heater : MonoBehaviour
     {
         GameObject obj = other.gameObject;
         Heatable heatableObj;
-        if (obj != null && obj.tag == "Heatable")
+        if (obj != null && obj.TryGetComponent<Heatable>(out heatableObj))
         {
-            heatableObj = obj.GetComponent<Heatable>();
+            //heatableObj = obj.GetComponent<Heatable>();
             heatableObj.Heat(currentTemp); // Apply the temperature of the heater to the heatable object
             objsHeating.Add(obj); // Add this object to the list of objects this eye is heating
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        GameObject obj = other.gameObject;
+        Heatable heatableObj;
+        if (obj.tag == "StaticLiquid" && obj.TryGetComponent<Heatable>(out heatableObj))
+        {
+            heatableObj.Heat(currentTemp); // Apply the temperature of the heater to the heatable object
+            if (!objsHeating.Contains(obj)) objsHeating.Add(obj); // Add this object to the list of objects this eye is heating
         }
     }
 

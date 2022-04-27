@@ -2,10 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * This script governs any object that can be filled with liquid, this may include bowls, cups, pots, pans, etc. Spices can be added to the container, as well
+ * as liquid. The script reports to the recipe manager with its current contents, including the amount of its individual contents in given units. The script
+ * also reports the current heat of its liquid to the recipe system. 
+ * 
+ * In addition to reporting to the recipe system, this script manipulates the attached liquid object in the following ways:
+ * - liquid object rotates inversely to this liquid object. This is handled by the Slosh() function of this class.
+ * - liquid object can scale and rise as new liquid is added to the container, this is governed by the AdjustLiquidHeight function of this class
+ * - liquid object changes color as liquids of different color are added to the volume of the container
+ */
+
 public class LiquidContainer : RecipeBroadcaster
 {
     public GameObject liquid;
     public GameObject liquidMesh;
+    private Heatable liquidHeat = null; // The heatable script of the liquid object
     [HideInInspector] public MeshRenderer liqRenderer;
 
     [SerializeField] protected float maxVolume = 0f; // In liters
@@ -16,7 +28,7 @@ public class LiquidContainer : RecipeBroadcaster
     [SerializeField] private int sloshSpeed;
     [SerializeField] private int rotateSpeed;
 
-    private float curRotationDiff;
+    private float curRotationDiff; // Difference between the worldspace UP vector and the liquid's UP vector (used to create "slosh" effect)
     [SerializeField] private float maxRotationDiff;
     [SerializeField] private float minRotationDiff;
 
@@ -25,7 +37,7 @@ public class LiquidContainer : RecipeBroadcaster
 
     private string currentLiquidType = ""; // Current liquid type being added. Variable used for color blending
     private string lastLiquidType = ""; // Last liquid type added. Variable used for color blending
-    private Color lastColor; // "Starting" color for blend from color - color
+    private Color lastColor; // "Starting" color for blend from color -> color
 
     [SerializeField] private Transform fillPoint;
     private Vector3 startingHeight;
@@ -37,6 +49,8 @@ public class LiquidContainer : RecipeBroadcaster
 
         liqRenderer = liquidMesh.GetComponent<MeshRenderer>();
 
+        liquid.TryGetComponent<Heatable>(out liquidHeat);
+
         if (totalVolume <= 0f) liqRenderer.enabled = false; // Only show liquid in the container if there is a nonzero volume of said liquid
     }
 
@@ -44,7 +58,10 @@ public class LiquidContainer : RecipeBroadcaster
     void Update()
     {
         Slosh();
-        
+
+        // If the liquid is heatable, broadcast its heat to the recipe system
+        if (liquidHeat != null) BroadcastSet("Heat", liquidHeat.currentTemp);
+
         liquidMesh.transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime, Space.Self); // Spin
     }
 
@@ -95,7 +112,6 @@ public class LiquidContainer : RecipeBroadcaster
     {
         if (volumeMap.ContainsKey(liquidType))
         {
-            Debug.Log("VM: " + (volumeMap[liquidType] + amt) + " TV: " + totalVolume + " dif: " + (totalVolume - volumeMap[liquidType]));
             volumeMap[liquidType] = Mathf.Clamp(volumeMap[liquidType] + amt, 0, totalVolume); // Volume of liquid cannot exceed the total volume of all the liquids
         }
         else volumeMap[liquidType] = amt;
@@ -134,7 +150,7 @@ public class LiquidContainer : RecipeBroadcaster
         liqRenderer.material.color = newColor;
     }
 
-    public float ClampRotationValue(float value, float difference)
+    public float ClampRotationValue(float value, float difference) // "Slosh" rotation of the liquid should not exceed a given amount
     {
         float returnValue = 0.0f;
 

@@ -2,23 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* 
+ * HeatableContainers behave like any normal Heatable object, but also heat the objects they contain.
+ */
+
 public class HeatableContainer : Heatable
 {
-
-    [SerializeField] private float particleTemp; // Temperature at which the container begins emitting particles
-    [SerializeField] private Heater heater;
-
-    private ParticleSystem particles;
-
-    private void Start()
-    { 
-        particles = GetComponentInChildren<ParticleSystem>();
-    }
+    [SerializeField] private Heater heater; // Heater
 
     private void Update()
     {
-        particles.gameObject.SetActive(currentTemp >= particleTemp);
-        heater.currentTemp = currentTemp; // Heatable containers heat the objects they contain
+        heater.currentTemp = currentTemp; // Set the temperature of the container's heater to the container's current temperature.
     }
 
 }

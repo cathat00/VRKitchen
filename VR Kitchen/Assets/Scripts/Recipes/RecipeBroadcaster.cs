@@ -6,19 +6,21 @@ using UnityEngine;
 
 public class RecipeBroadcaster : MonoBehaviour
 {
-    [SerializeField] private bool broadcasting = true;
+    [SerializeField] private bool broadcasting = true; // The broadcaster is currently broadcasting to the recipe system
     [SerializeField] private RecipeManager recipeManager;
 
-    protected void BroadcastAdd(string ing, float amt) {
+    protected void BroadcastAdd(string ing, float amt) { // if broadcasting -> Call the add function of the current recipe task (SEE RecipeTask class)
         if (broadcasting) recipeManager.recipe.currentTask.addAmt(ing, amt);
     }
 
-    protected void BroadcastSet(string ing, float amt) {
+    protected void BroadcastSet(string ing, float amt) // if broadcasting -> Call the add function of the current recipe task (SEE RecipeTask class)
+    {
         if (broadcasting) recipeManager.recipe.currentTask.setAmt(ing, amt);
     }
 
 
-    protected virtual void BroadcastRemove(string ing, float amt) {
+    protected virtual void BroadcastRemove(string ing, float amt) // if broadcasting -> Call the add function of the current recipe task(SEE RecipeTask class)
+    {
         if (broadcasting) recipeManager.recipe.currentTask.removeAmt(ing, amt);
     }
 }

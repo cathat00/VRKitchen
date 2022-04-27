@@ -2,15 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ *  PourDetector is a class used in other scripts (SEE Faucet, Spillable) to generate a stream of liquid (SEE LiquidStream when certain conditions have been met. 
+ *  When the pour conditions are no longer met, PourDetector ends the stream of liquid. 
+ */
+
 public class PourDetector : MonoBehaviour
 {
-    public Transform origin;
+    public Transform origin; // Origin point for the liquid stream
 
-    [HideInInspector] public bool isPouring;
-    private bool pourCheck;
-
-    [SerializeField] private GameObject streamPrefab;
-    private Stream currentStream;
+    [HideInInspector] public bool isPouring; // "Is the PourDetector pouring?" 
+    private bool pourCheck; // "Should the PourDetector be pouring?" 
+    
+    [SerializeField] private GameObject streamPrefab; // Type of liquid to be poured
+    private Stream currentStream; // Current stream of liquid being poured
     
     [SerializeField] private float unitsPerSecond = .138f; // Unit output per second. (Liters for liquids, grams for spices)
 
@@ -22,15 +27,15 @@ public class PourDetector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (pourCheck != isPouring)
+        if (pourCheck != isPouring) // Is the detector pouring? Should it be? 
         {
             if (isPouring)
             {
-                StartPour();
+                StartPour(); // Begin pouring
             }
             else
             {
-                EndPour();
+                EndPour(); // Stop pouring
             }
             pourCheck = isPouring;
         }
@@ -38,22 +43,22 @@ public class PourDetector : MonoBehaviour
 
     private void StartPour()
     {
-        currentStream = CreateStream();
+        currentStream = CreateStream(); // Create a new stream, store it in current stream
         currentStream.Begin();
     }
 
     private void EndPour()
     {
-        currentStream.End();
-        currentStream = null;
+        currentStream.End(); // End the current stream
+        currentStream = null; // There is no current stream
     }
 
-    private Stream CreateStream()
+    private Stream CreateStream() // Create a new liquid stream at the origin point
     {
         GameObject streamObj = Instantiate(streamPrefab, origin.position, Quaternion.identity, transform);
         Stream stream = streamObj.GetComponent<Stream>();
 
-        stream.unitsPerSecond = unitsPerSecond;
+        stream.unitsPerSecond = unitsPerSecond; // Set the unit output of the created stream
 
         return stream;
     }

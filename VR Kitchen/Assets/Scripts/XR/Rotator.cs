@@ -3,53 +3,57 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 namespace LevelUP.Dial
 {
+    /* 
+     * A rotator is an object, like a stove dial or a doorknob, that the player can grab and rotate. 
+     */
+
     public class Rotator : MonoBehaviour
     {
         [SerializeField] Transform linkedDial;
-        [SerializeField] private int snapRotationAmount = 25;
-        [SerializeField] private float angleTolerance;
+        [SerializeField] private int snapRotationAmount = 25; // Rotational increment
+        [SerializeField] private float angleTolerance; // Amount that the player has to rotate their hand in order to rotate the object by snapRotationAmount
 
-        [SerializeField] private bool rotationConstraints = false;
-        [SerializeField] private float maxRotations = 0;
+        [SerializeField] private bool rotationConstraints = false; // Max / min rotation values
+        [SerializeField] private float maxRotations = 0; // Max rotation value, if rotationContstraints are enabled
 
-        private XRBaseInteractor interactor;
+        private XRBaseInteractor interactor; // Player's hand
 
         private float startAngle;
         private bool requiresStartAngle = true;
         private bool shouldGetHandRotation = false;
-        private XRGrabInteractable grabInteractor => GetComponent<XRGrabInteractable>();
+        private XRGrabInteractable grabInteractor => GetComponent<XRGrabInteractable>(); // Grab interactable attached to this object
 
-        private void OnEnable()
+        private void OnEnable() // When the object is enabled...
         {
-            grabInteractor.selectEntered.AddListener(GrabbedBy);
-            grabInteractor.selectExited.AddListener(GrabEnd);
+            grabInteractor.selectEntered.AddListener(GrabbedBy); // Begin listening for player hand interaction
+            grabInteractor.selectExited.AddListener(GrabEnd); // Prepare listener for ending the interaction
         }
-        private void OnDisable()
+        private void OnDisable() // When the object is disabled...
         {
-            grabInteractor.selectEntered.RemoveListener(GrabbedBy);
+            grabInteractor.selectEntered.RemoveListener(GrabbedBy); // Shutdown listeners
             grabInteractor.selectExited.RemoveListener(GrabEnd);
         }
 
         private void GrabEnd(SelectExitEventArgs arg0)
         {
-            shouldGetHandRotation = false;
+            shouldGetHandRotation = false; // Stop listening to the rotation of the player's hand
             requiresStartAngle = true;
         }
 
-        private void GrabbedBy(SelectEnterEventArgs arg0)
+        private void GrabbedBy(SelectEnterEventArgs arg0) // When grabbed, find and store player's hand in interactor
         {
-            interactor = GetComponent<XRGrabInteractable>().selectingInteractor;
+            interactor = GetComponent<XRGrabInteractable>().selectingInteractor; // Store the player's hand in interactor
             interactor.GetComponent<XRDirectInteractor>().hideControllerOnSelect = true;
 
-            shouldGetHandRotation = true;
-            startAngle = 0f;
+            shouldGetHandRotation = true; // Start listening to the rotation of the player's hand
+            startAngle = 0f; // Reset angle of rotation
         }
 
         void Update()
         {
             if (shouldGetHandRotation)
             {
-                var rotationAngle = GetInteractorRotation(); //gets the current controller angle
+                var rotationAngle = GetInteractorRotation(); // Gets the current controller angle
                 GetRotationDistance(rotationAngle);
             }
         }
@@ -61,15 +65,15 @@ namespace LevelUP.Dial
         {
             if (!requiresStartAngle)
             {
-                var angleDifference = Mathf.Abs(startAngle - currentAngle);
+                var angleDifference = Mathf.Abs(startAngle - currentAngle); 
 
-                if (angleDifference > angleTolerance)
+                if (angleDifference > angleTolerance) // If player has rotated hand past angleTolerance...
                 {
-                    if (angleDifference > 270f) //checking to see if the user has gone from 0-360 - a very tiny movement but will trigger the angletolerance
+                    if (angleDifference > 270f) // Checking to see if the user has gone from 0-360 - a very tiny movement but will trigger the angletolerance
                     {
                         float angleCheck;
 
-                        if (startAngle < currentAngle) 
+                        if (startAngle < currentAngle) // Clockwise
                         {
                             angleCheck = CheckAngle(currentAngle, startAngle);
 
@@ -77,14 +81,14 @@ namespace LevelUP.Dial
                                 return;
                             else
                             {
-                                if (isValidClockWiseRotation())
+                                if (isValidClockWiseRotation()) // Check if valid rotation
                                 {
-                                    RotateDialClockwise();
+                                    RotateDialClockwise(); // Rotate
                                     startAngle = currentAngle;
                                 }
                             }
                         }
-                        else if (startAngle > currentAngle) 
+                        else if (startAngle > currentAngle) // Anticlockwise
                         {
                             angleCheck = CheckAngle(currentAngle, startAngle);
 
@@ -92,36 +96,36 @@ namespace LevelUP.Dial
                                 return;
                             else
                             {
-                                if (isValidAntiClockWiseRotation())
+                                if (isValidAntiClockWiseRotation()) // Check if valid rotation
                                 {
-                                    RotateDialAntiClockwise();
+                                    RotateDialAntiClockwise(); // Rotate
                                     startAngle = currentAngle;
                                 }
                             }
                         }
                     }
-                    else
+                    else // If angleDifference <= 270f
                     {
-                        if (startAngle < currentAngle)
+                        if (startAngle < currentAngle) // Anticlockwise
                         {
-                            if (isValidAntiClockWiseRotation())
+                            if (isValidAntiClockWiseRotation()) // Check if valid rotation
                             {
-                                RotateDialAntiClockwise();
+                                RotateDialAntiClockwise(); // Rotate
                                 startAngle = currentAngle;
                             }
                         }
-                        else if (startAngle > currentAngle)
+                        else if (startAngle > currentAngle) // Clockwise
                         {
-                            if (isValidClockWiseRotation())
+                            if (isValidClockWiseRotation()) // Check if valid rotation
                             {
-                                RotateDialClockwise();
+                                RotateDialClockwise(); // Rotate
                                 startAngle = currentAngle;
                             }
                         }
                     }
                 }
             }
-            else
+            else // Rotation just began and the dial requires a starting angle
             {
                 requiresStartAngle = false;
                 startAngle = currentAngle;
@@ -137,7 +141,7 @@ namespace LevelUP.Dial
                                                       linkedDial.localEulerAngles.y, 
                                                       linkedDial.localEulerAngles.z + snapRotationAmount);
 
-            if (TryGetComponent<IDial>(out IDial dial))
+            if (TryGetComponent<IDial>(out IDial dial)) // Send rotation information to IDial
                 dial.DialChanged(linkedDial.localEulerAngles.z, snapRotationAmount); // The different dial positions: 0 -> 0, 25 -> 1, 50 -> 2, etc.
         }
 
@@ -155,7 +159,7 @@ namespace LevelUP.Dial
                                                       linkedDial.localEulerAngles.y, 
                                                       linkedDial.localEulerAngles.z - snapRotationAmount);
 
-            if(TryGetComponent<IDial>(out IDial dial))
+            if(TryGetComponent<IDial>(out IDial dial)) // Sned rotation information to IDial
                 dial.DialChanged(linkedDial.localEulerAngles.z, snapRotationAmount); // The different dial positions: 0 -> 0, 25 -> 1, 50 -> 2, etc.
         }
 

@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * This is the base class for heatable objects. Any object that can receive heat from another is considered "Heatable" -- this includes pots and pans, liquid and solid ingredients, etc.
+ * A heatable object heats or cools towards a given target temperature as a function of time.
+ */
+
 public abstract class Heatable : MonoBehaviour
 {
-    [SerializeField] protected float maxTemp;
-    [SerializeField] protected float currentTemp = 0.0f;
-    protected float targetTemp = 0f;
+    [SerializeField] protected float maxTemp; // Maximum temperature the object can reach
+    [SerializeField] public float currentTemp = 0.0f; // Current temperature of the object
+    protected float targetTemp = 0f; // Temperatue that the object is approaching (can be less than or greater than current temperature)
 
-    [SerializeField] private float degsPerSec; // Rate at which object changes temperature
+    [SerializeField] protected float degsPerSec; // Rate at which object changes temperature
 
-    [SerializeField] protected bool canCool = true;
+    [SerializeField] protected bool canCool = true; // Determines whether or not the object can cool
 
-    private IEnumerator controlTemp = null;
+    private IEnumerator controlTemp = null; // Coroutine to handle heating/cooling
 
     protected virtual void OnEnable()
     {
@@ -20,41 +25,41 @@ public abstract class Heatable : MonoBehaviour
         StartCoroutine(controlTemp);
     }
 
-    public void Heat(float temp) => targetTemp = Mathf.Clamp(temp, 0, maxTemp);
+    public void Heat(float temp) => targetTemp = Mathf.Clamp(temp, 0, maxTemp); // Clamp target temperature value between 0 degs and maxTemp
 
-    public void RemoveFromHeat() => targetTemp = 0f;
+    public void RemoveFromHeat() => targetTemp = 0f; // Begin cooling down to 0 degrees
 
-    private IEnumerator ControlTemp()
+    protected virtual IEnumerator ControlTemp()
     {
 
-        float totalTime;
+        float totalTime; // Total time it will take to reach target temperature from current temperature
 
         float startingTemp = 0.0f;
         bool cooling = false;
 
-        float timeElapsed = 0.0f;
+        float timeElapsed = 0.0f; // Time elapsed in heating / cooling process
 
-        while (this.gameObject.activeInHierarchy)
+        while (this.gameObject.activeInHierarchy) // While object is active...
         {
-            if (targetTemp < currentTemp && !cooling && canCool)
+            if (targetTemp < currentTemp && !cooling && canCool) // Quit heating and begin cooling
             {
                 startingTemp = currentTemp;
-                cooling = true;
-                timeElapsed = 0.0f;
+                cooling = true; // Object is no longer heating, now cooling
+                timeElapsed = 0.0f; // Reset time
             }
-            else if (targetTemp > currentTemp && cooling)
+            else if (targetTemp > currentTemp && cooling) // Begin heating
             {
                 startingTemp = 0.0f;
                 cooling = false;
-                timeElapsed = 0.0f;
+                timeElapsed = 0.0f; // Reset time
             }
 
             totalTime = Mathf.Abs(startingTemp - targetTemp) / degsPerSec; // Recalculate the total time on each loop -- it is liable to change as the heater's temp changes
 
             if (totalTime > timeElapsed)
             {
-                timeElapsed += Time.deltaTime;
-                currentTemp = Mathf.Lerp(startingTemp, targetTemp, timeElapsed / totalTime);
+                timeElapsed += Time.deltaTime; // Add framerate to timer
+                currentTemp = Mathf.Lerp(startingTemp, targetTemp, timeElapsed / totalTime); // Change temperature as a function of time
             }
 
             yield return null;

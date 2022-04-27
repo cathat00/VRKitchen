@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * This class is used for any streams of LIQUID, as opposed to spice streams. It derives from the base class of Stream and uses Line Renderer to animate a stream head and tail. 
+ */
+
 public class LiquidStream : Stream
 {
-    //[SerializeField] LayerMask ignoreMask;
 
-    [SerializeField] private float speed = 1.75f;
-    //public float unitsPerSecond = .138f; // Unit output per second. (Liters for liquids, grams for spices)
+    [SerializeField] private float speed = 1.75f; // Speed at which the stream animates
 
-    //private string ingType;
     private Color color;
 
     private LineRenderer lineRenderer = null;
@@ -28,29 +29,29 @@ public class LiquidStream : Stream
         ingType = GetComponent<Ingredient>().type;
     }
 
-    private void Start()
+    private void Start() // Set line renderer at start point for the animation
     {
         MoveToPosition(0, transform.position);
         MoveToPosition(1, transform.position);
     }
 
-    public override void Begin()
+    public override void Begin() // Override of the parent class Begin -> updated to begin pour animation on instantiation
     {
         StartCoroutine(UpdateParticle());
         pourRoutine = StartCoroutine(BeginPour());
     }
 
-    public override void End()
+    public override void End() // Override of the parent class Begin -> updated to end pour animation
     {
         StopCoroutine(pourRoutine);
         pourRoutine = StartCoroutine(EndPour());
     }
 
-    private IEnumerator BeginPour()
+    private IEnumerator BeginPour() // Begin pour animation. Animate the head of the stream down to the endpoint
     {
         while(gameObject.activeSelf)
         {
-            targetPosition = FindEndPoint();
+            targetPosition = FindEndPoint(); // End point to which the stream should fall
 
             MoveToPosition(0, transform.position);
             if (lineRenderer.GetPosition(1).y > targetPosition.y) AnimateToPosition(1, targetPosition); // Fall to point lower in Y than current position
@@ -60,7 +61,7 @@ public class LiquidStream : Stream
         }
     }
 
-    private IEnumerator EndPour()
+    private IEnumerator EndPour() // End the pour animation by bringing the tail of the stream down to the stream's endpoint
     {
         while(!HasReachedPosition(0, targetPosition))
         {
@@ -74,11 +75,11 @@ public class LiquidStream : Stream
     protected override void TryToFill(GameObject obj)
     {
         GameObject container = null;
-        LiquidContainer statLiq;
+        LiquidContainer statLiq; // Container to be filled
 
         if (obj.tag == "StaticLiquid") container = obj.transform.parent.gameObject; // A liquid's parent should be its container
 
-        if (container != null && container.TryGetComponent<LiquidContainer>(out statLiq))
+        if (container != null && container.TryGetComponent<LiquidContainer>(out statLiq)) // If the stream hit a liquid container -> fill the container
             statLiq.GetComponent<LiquidContainer>().AddLiquid(unitsPerSecond * Time.deltaTime, ingType, color);
     }
 
@@ -106,25 +107,25 @@ public class LiquidStream : Stream
         return endPoint;
     }
 
-    private void MoveToPosition(int idx, Vector3 targetPosition)
+    private void MoveToPosition(int idx, Vector3 targetPosition) // Move line renderer to given position WITHOUT ANIMATION
     {
         lineRenderer.SetPosition(idx, targetPosition);
     }
 
-    private void AnimateToPosition(int idx, Vector3 targetPosition)
+    private void AnimateToPosition(int idx, Vector3 targetPosition) // Move line renderer to given position WITH ANIMATION
     {
         Vector3 currentPoint = lineRenderer.GetPosition(idx);
         Vector3 newPosition = Vector3.MoveTowards(currentPoint, targetPosition, Time.deltaTime * speed);
         lineRenderer.SetPosition(idx, newPosition);
     }
 
-    private bool HasReachedPosition(int idx, Vector3 targetPosition)
+    private bool HasReachedPosition(int idx, Vector3 targetPosition) // Check if the stream head has reached given pos'n 
     {
         Vector3 currentPosition = lineRenderer.GetPosition(idx);
         return currentPosition == targetPosition;
     }
 
-    private IEnumerator UpdateParticle()
+    private IEnumerator UpdateParticle() // Turn the splash particle effect ON / OFF, depending on position of stream head
     {
         while (gameObject.activeSelf)
         {
